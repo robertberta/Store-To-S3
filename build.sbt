@@ -10,7 +10,7 @@ libraryDependencies ++= Seq( jdbc , cache , ws   , specs2 % Test )
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
 
-libraryDependencies += "com.typesafe.slick" %% "slick" % "3.1.1"
+libraryDependencies += "com.typesafe.play" % "anorm_2.11" % "3.0.0-M1"
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
 
