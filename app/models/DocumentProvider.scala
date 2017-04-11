@@ -1,20 +1,17 @@
 package models
 
+import javax.inject.Inject
+
 import play.api.db._
 import anorm._
 import anorm.SqlParser._
+import com.google.inject.Singleton
 /**
   * Created by robert on 07.01.2017.
   */
-case class Documents(
-                      idDocument: Int,
-                      company: String,
-                      team: String,
-                      name: String
-                    )
 
-object Documents {
-
+@Singleton
+class DocumentProvider @Inject()(db: Database){
   val mapDocuments = getAll.map(d => (d.company, d.team, d.name) -> d.idDocument).toMap
 
   def getDocumentId(company: String, team: String, name: String) = mapDocuments.get(company, team, name)
@@ -25,19 +22,19 @@ object Documents {
       get[String]("team") ~
       get[String]("name") map {
       case idDocument ~ company ~ team ~ name =>
-        Documents(idDocument, company, team, name)
+        Document(idDocument, company, team, name)
     }
   }
 
-  def getAll: List[Documents] = {
-    DB.withConnection { implicit conn =>
+  def getAll: List[Document] = {
+    db.withConnection { implicit conn =>
       SQL"""
     SELECT
        idDocument,
        company,
        team,
        name
-    FROM Documents;
+    FROM Document;
   """.as(simple *)
     }
 

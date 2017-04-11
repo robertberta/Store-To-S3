@@ -3,11 +3,12 @@
 # ~~~~
 
 # Home page
-GET        /:company/:team/data/:doc        controllers.Data.save(company,team,doc)
-GET        /:company/data/:doc              controllers.Data.save(company,team = "all",doc)
+PUT        /:company/:team/data/:doc        controllers.Data.save(company,team,doc)
+PUT        /:company/data/:doc              controllers.Data.save(company,team = "all",doc)
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                    controllers.Assets.at(path="/public", file)
+GET        /test   @controllers.Default.redirect(to = "http://google.com")
 
 
     

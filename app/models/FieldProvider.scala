@@ -7,18 +7,16 @@ import com.google.inject.Inject
 /**
   * Created by robert on 07.01.2017.
   */
-case class Fields(
+case class Field(
                       idField: Int,
                       idDocument: Int,
                       name: String,
                       dataType: String,
-                      constraint: String
+                      constraint: Constraint
                     )
 
-object Fields {
-  class db @Inject()(db: Database) {
-    val conn = db.getConnection()
-  }
+class FieldProvider(db:Database) {
+
   val mapFields = getAll.groupBy(_.idDocument)
 
   def getFields(idDocument:Int) = mapFields.get(idDocument)
@@ -30,12 +28,12 @@ object Fields {
       get[String]("dataType") ~
       get[String]("constraint") map {
       case idField~idDocument ~ name ~ dataType ~ constraint =>
-        Fields(idField, idDocument, name, dataType, constraint)
+        Field(idField, idDocument, name, dataType, new Constraint(constraint))
     }
   }
 
-  def getAll : List[Fields] = {
-    DB.withConnection { implicit conn =>
+  def getAll : List[Field] = {
+    db.withConnection { implicit conn =>
       SQL"""
     SELECT
        idField,

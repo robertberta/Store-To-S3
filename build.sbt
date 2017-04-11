@@ -12,6 +12,8 @@ libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.36"
 
 libraryDependencies += "com.typesafe.play" % "anorm_2.11" % "3.0.0-M1"
 
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % "2.4.0"
+
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"  
